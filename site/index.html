@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pengu Beats – Stream Your Music on Abstract</title>
+  <title>Pulsefy | Stream Your Music on PulseChain</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=1">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png?v=1">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=1">
@@ -16,31 +15,13 @@
     #sidebar h1 { font-size:2rem; color:#00cc99; display:flex; align-items:center; gap:10px }
     .cat-emoji { font-size: 3.16rem; width: 51px;}
     #sidebar nav a, #sidebar nav button { display:block; padding:12px 0; color:#bbb; cursor:pointer; text-decoration:none; background:none; border:none; font:inherit; text-align:left; transition:color .2s; font-size:1rem }
-    #sidebar nav .cta-row{
-      display:flex;
-      gap:10px;
-      margin-top:12px;
-    }
+    #sidebar nav .cta-row{ display:flex; gap:10px; margin-top:12px; }
     #sidebar nav .btn-ghost{
-      flex:1;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 12px;
-      border:1px solid #333;
-      border-radius:8px;
-      background:#151515;
-      color:#bbb;
-      text-decoration:none;
-      font-size:0.95rem;
-      transition:background .2s, border-color .2s, color .2s, transform .15s;
+      flex:1; display:inline-flex; align-items:center; justify-content:center; padding:10px 12px;
+      border:1px solid #333; border-radius:8px; background:#151515; color:#bbb; text-decoration:none;
+      font-size:0.95rem; transition:background .2s, border-color .2s, color .2s, transform .15s;
     }
-    #sidebar nav .btn-ghost:hover{
-      background:#1b1b1b;
-      border-color:#00cc99;
-      color:#00cc99;
-      transform:translateY(-1px);
-    }
+    #sidebar nav .btn-ghost:hover{ background:#1b1b1b; border-color:#00cc99; color:#00cc99; transform:translateY(-1px); }
     #sidebar nav a.active, #sidebar nav a:hover, #sidebar nav button:hover { color:#00cc99 }
     #main { flex:1; display:flex; flex-direction:column }
     header { padding:20px; background:rgba(20,20,20,0.9); border-bottom:1px solid #333; display:flex; align-items:center; gap:15px }
@@ -81,11 +62,7 @@
     .modal-backdrop { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000 }
     .modal-backdrop.active { display:flex }
     .modal { background:#1a1a1a; padding:30px; border-radius:12px; width:420px; display:flex; flex-direction:column; gap:12px; border:1px solid #333 }
-    .modal {
-      max-height: 90vh;
-      overflow: auto;
-      width: min(420px, 92vw);
-    }
+    .modal { max-height: 90vh; overflow: auto; width: min(420px, 92vw); }
     .modal-backdrop { padding: 16px; }
     .modal h2 { color:#00cc99; margin-bottom:6px; font-size:1.4rem }
     .modal label { font-size:0.9rem; color:#bbb }
@@ -96,17 +73,7 @@
     .modal button.confirm:hover { background:#00b386 }
     .modal button.cancel { background:#333; color:#eee }
     .modal button.cancel:hover { background:#444 }
-    .loading-spinner {
-      border: 3px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      border-top: 3px solid #00cc99;
-      width: 20px;
-      height: 20px;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 10px;
-    }
+    .loading-spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid #00cc99; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; }
     .empty-state { text-align:center; padding:60px 20px; color:#666 }
     .empty-state .cat-emoji { font-size:4rem; margin-bottom:20px; display:block }
     .upload-preview { display:flex; gap:15px; margin-top:10px; padding:15px; background:#222; border-radius:8px }
@@ -118,32 +85,16 @@
     .small { font-size:0.85rem; color:#bbb }
     .notice { background:#222; border:1px solid #333; padding:10px; border-radius:8px; font-size:0.95rem }
     .volume { position: relative; display:flex; align-items:center }
-    .vol-btn {
-      position: relative; width:40px; height:40px; border-radius:999px;
-      border:1px solid #333; background:#151515; display:inline-grid; place-items:center;
-      cursor:pointer; transition:transform .15s, border-color .2s, background .2s;
-    }
+    .vol-btn { position: relative; width:40px; height:40px; border-radius:999px; border:1px solid #333; background:#151515; display:inline-grid; place-items:center; cursor:pointer; transition:transform .15s, border-color .2s, background .2s; }
     .vol-btn:hover { transform:scale(1.05); border-color:#00cc99; background:#1b1b1b }
     #volIcon { font-size:22px; color:#eee; pointer-events:none }
-    .waves::before, .waves::after {
-      content:""; position:absolute; inset:0; border-radius:999px;
-      border:1px solid rgba(0,204,153,.2); transform:scale(1); opacity:.8; animation: ping 1.4s ease-out infinite;
-    }
+    .waves::before, .waves::after { content:""; position:absolute; inset:0; border-radius:999px; border:1px solid rgba(0,204,153,.2); transform:scale(1); opacity:.8; animation: ping 1.4s ease-out infinite; }
     .waves::after { animation-delay:.7s; }
     @keyframes ping { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(1.6);opacity:0} }
-    .vol-popover {
-      position:absolute; bottom:52px; left:50%; transform:translateX(-50%) scale(.98);
-      background:#121212; border:1px solid #333; border-radius:10px; padding:10px 12px;
-      box-shadow:0 8px 24px rgba(0,0,0,.5); display:none; gap:10px; align-items:center;
-    }
+    .vol-popover { position:absolute; bottom:52px; left:50%; transform:translateX(-50%) scale(.98); background:#121212; border:1px solid #333; border-radius:10px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.5); display:none; gap:10px; align-items:center; }
     .vol-popover.open { display:flex; transform:translateX(-50%) scale(1); }
-    .vol-popover input[type=range]{
-      -webkit-appearance:none; width:130px; height:6px; background:#333; border-radius:999px; outline:none;
-      transform:rotate(-90deg);
-    }
-    .vol-popover input[type=range]::-webkit-slider-thumb{
-      -webkit-appearance:none; width:14px; height:14px; border-radius:999px; background:#00cc99; box-shadow:0 0 8px rgba(0,204,153,.7)
-    }
+    .vol-popover input[type=range]{ -webkit-appearance:none; width:130px; height:6px; background:#333; border-radius:999px; outline:none; transform:rotate(-90deg); }
+    .vol-popover input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:14px; height:14px; border-radius:999px; background:#00cc99; box-shadow:0 0 8px rgba(0,204,153,.7) }
     .vol-value{ font-size:.85rem; color:#bbb; min-width:40px; text-align:center }
     .hamburger{ display:none; background:none; border:none; font-size:28px; color:#eee; cursor:pointer }
     .hamburger:hover{ color:#00cc99 }
@@ -151,15 +102,9 @@
     #sidebar .sidebar-close { display: none; }
     @media (max-width: 980px){
       body { height:auto; overflow:visible }
-      #sidebar{
-        position:fixed; top:0; left:-100%; height:100vh; z-index:1100; width:78vw; max-width:320px;
-        transition:left .25s ease; box-shadow: 8px 0 24px rgba(0,0,0,.5)
-      }
+      #sidebar{ position:fixed; top:0; left:-100%; height:100vh; z-index:1100; width:78vw; max-width:320px; transition:left .25s ease; box-shadow: 8px 0 24px rgba(0,0,0,.5) }
       #sidebar.open{ left:0 }
-      #sidebar .sidebar-close{
-        display:inline-flex; position:absolute; top:12px; right:12px; background:#222; border:1px solid #444;
-        border-radius:8px; padding:6px; color:#eee; cursor:pointer
-      }
+      #sidebar .sidebar-close{ display:inline-flex; position:absolute; top:12px; right:12px; background:#222; border:1px solid #444; border-radius:8px; padding:6px; color:#eee; cursor:pointer }
       #main{ width:100% }
       header{ gap:10px }
       .hamburger{ display:inline-flex }
@@ -168,24 +113,11 @@
       #playerBar{ height:76px; padding:0 12px; gap:12px; display:flex !important; padding-bottom: env(safe-area-inset-bottom, 0px) }
       #trackInfo{ max-width:40vw }
       @media (max-width: 980px){
-        .track{
-          align-items: flex-start;
-          flex-wrap: wrap;
-        }
-        .meta-line{
-          display: flex;
-          margin-left: 0;
-          width: 100%;
-          gap: 8px;
-          margin-top: 8px;
-          flex-wrap: wrap;
-        }
+        .track{ align-items: flex-start; flex-wrap: wrap; }
+        .meta-line{ display: flex; margin-left: 0; width: 100%; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
       }
       .modal{ width:min(420px, 96vw) }
-      #sidebarOverlay{
-        display:block; position:fixed; inset:0; background:rgba(0,0,0,.45);
-        z-index:1099; opacity:0; pointer-events:none; transition:opacity .2s ease
-      }
+      #sidebarOverlay{ display:block; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:1099; opacity:0; pointer-events:none; transition:opacity .2s ease }
       #sidebarOverlay.show{ opacity:1; pointer-events:auto }
     }
     @media (max-width: 420px){
@@ -193,40 +125,18 @@
       #currentTitle{ font-size:.95rem }
       #currentArtist{ font-size:.8rem }
     }
-    #howItWorksBtn {
-      width: 100%;
-      margin-top: 10px;
-      text-align: center;
-    }
-    .how-it-works-box {
-      margin-top: 10px;
-      background: #1b1b1b;
-      border: 1px solid #333;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 0.9rem;
-      color: #bbb;
-      display: none;
-    }
-    .how-it-works-box.show {
-      display: block;
-    }
-    #sidebar nav .btn-ghost.cta-buy{
-      display:block; width:100%; margin-top:12px; text-align:center;
-    }
-    #sidebar nav .btn-ghost.cta-buy:hover{
-      background:#00b386;
-      border-color:#00b386;
-      color:#000;
-      transform:translateY(-1px);
-    }
+    #howItWorksBtn { width: 100%; margin-top: 10px; text-align: center; }
+    .how-it-works-box { margin-top: 10px; background: #1b1b1b; border: 1px solid #333; border-radius: 8px; padding: 12px; font-size: 0.9rem; color: #bbb; display: none; }
+    .how-it-works-box.show { display: block; }
+    #sidebar nav .btn-ghost.cta-buy{ display:block; width:100%; margin-top:12px; text-align:center; }
+    #sidebar nav .btn-ghost.cta-buy:hover{ background:#00b386; border-color:#00b386; color:#000; transform:translateY(-1px); }
   </style>
 </head>
 <body>
   <div id="sidebar">
-<h1>
-      <img src="./logo.png" alt="Pengu Beats" class="cat-emoji" style="width: 61.2px; font-size: 3.8rem;"/>
-      <span style="font-size: 1.6rem;">Pengu Beats</span>
+    <h1>
+      <img src="./logo.png" alt="Pulsefy" class="cat-emoji" style="width: 61.2px; font-size: 3.8rem;"/>
+      <span style="font-size: 1.6rem;">Pulsefy</span>
     </h1>
     <button class="sidebar-close" aria-label="Close" onclick="closeSidebar()">
       <span class="material-icons">close</span>
@@ -236,19 +146,19 @@
       <a id="nav-fav" onclick="showSection('favorites')">❤️ Favorites</a>
       <button onclick="toggleUpload()">🎵 Upload Track</button>
       <div class="cta-row">
-        <a class="btn-ghost" href="https://pengu-beats.gitbook.io/pengu-beats" target="_blank" rel="noopener" aria-label="Open documentation">
+        <a class="btn-ghost" href="#" target="_blank" rel="noopener" aria-label="Open documentation">
           📘 Docs
         </a>
-        <a class="btn-ghost" href="https://x.com/PenguBeats" target="_blank" rel="noopener" aria-label="Open X (Twitter) profile">
+        <a class="btn-ghost" href="https://x.com/Pulsefy" target="_blank" rel="noopener" aria-label="Open X profile">
           𝕏 Twitter
         </a>
       </div>
       <button class="btn-ghost" id="howItWorksBtn" onclick="toggleHowItWorks()">❓ How it works</button>
       <div class="how-it-works-box" id="howItWorksBox">
-        <p><strong>Pengu Beats</strong> is a free music platform. You can listen anytime you want without paying anything.</p>
-        <p>You can also upload your own tracks and even earn <strong>ETH</strong> from community support. It's simple, fast, and fee‑free.</p>
+        <p><strong>Pulsefy</strong> is a free music platform UI. Listen anytime without paying.</p>
+        <p>You can also upload your own tracks and earn tips from the community.</p>
       </div>
-      <a id="buyBongoBtn" class="btn-ghost cta-buy" href="https://dexscreener.com/" target="_blank" rel="noopener" aria-label="Buy $PENGU">🟠 Buy $PBEATS</a>
+      <a id="buyBongoBtn" class="btn-ghost cta-buy" href="https://dexscreener.com/pulsechain" target="_blank" rel="noopener" aria-label="Buy $PLFY">🟣 Buy $PLFY</a>
     </nav>
     <div style="margin-top:auto;">
       <div style="color:#00cc99; font-size:0.9rem; margin-bottom:10px;">🎹 Producer Portal</div>
@@ -263,7 +173,7 @@
       </button>
       <input id="searchBar" type="text" placeholder="Search tracks, artists..." oninput="filterTracks()"/>
       <div class="header-info">
-        <div>💿 Abstract Music Platform</div>
+        <div>💜 PulseChain Music Hub</div>
       </div>
     </header>
     <div id="contentArea">
@@ -276,8 +186,8 @@
         <div id="favoritesList">
           <div class="empty-state">
             <span class="cat-emoji">😺</span>
-            <h3>No favorites yet!</h3>
-            <p>Start hearting some tracks to see them here</p>
+            <h3>No favorites yet</h3>
+            <p>Heart some tracks to see them here</p>
           </div>
         </div>
       </div>
@@ -287,7 +197,7 @@
     <img id="currentCover" src="" alt="Cover" style="visibility:hidden"/>
     <div id="trackInfo">
       <div id="currentTitle">Select a track</div>
-      <div id="currentArtist">Pengu Beats</div>
+      <div id="currentArtist">Pulsefy</div>
     </div>
     <div id="playerControls">
       <button onclick="prevTrack()"><span class="material-icons">skip_previous</span></button>
@@ -312,10 +222,11 @@
       </div>
     </div>
   </div>
+
   <div id="uploadModal" class="modal-backdrop">
     <div class="modal">
       <h2>🎵 Upload Your Track</h2>
-      <div class="notice">💡 Free upload. No fees.</div>
+      <div class="notice">Free upload. No fees.</div>
       <label for="trackTitle">Track title</label>
       <input type="text" id="trackTitle" placeholder="Track Title" required/>
       <label for="trackArtist">Artist</label>
@@ -324,24 +235,25 @@
       <input type="text" id="trackGenre" placeholder="Genre (optional)"/>
       <label for="twitterHandle">Artist Twitter (optional)</label>
       <input type="text" id="twitterHandle" placeholder="@your_twitter (optional)"/>
-      <label for="tipWallet">Tip wallet (ETH, optional)</label>
-      <input type="text" id="tipWallet" placeholder="Tip wallet (ETH, optional)"/>
-      <label for="trackFile">Audio file — <b>track</b> slot <span class="small">(MP3 up to 15 MB)</span></label>
+      <label for="tipWallet">Tip wallet (optional)</label>
+      <input type="text" id="tipWallet" placeholder="Wallet address for tips (optional)"/>
+      <label for="trackFile">Audio file — track slot <span class="small">(MP3 up to 15 MB)</span></label>
       <input type="file" id="trackFile" accept="audio/mpeg,.mp3" required onchange="previewTrack()"/>
-      <label for="coverFile">Image — <b>cover</b> slot <span class="small">(JPG/PNG/WebP up to 3 MB)</span></label>
+      <label for="coverFile">Image — cover slot <span class="small">(JPG/PNG/WebP up to 3 MB)</span></label>
       <input type="file" id="coverFile" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" onchange="previewCover()"/>
       <div id="uploadPreview"></div>
       <button id="uploadBtn" class="confirm" onclick="processUpload()">⬆️ Upload</button>
       <button class="cancel" onclick="toggleModal('uploadModal', false)">Cancel</button>
     </div>
   </div>
+
   <div id="supportModal" class="modal-backdrop">
     <div class="modal">
       <h2>🤝 Support the Artist</h2>
       <div id="supportInfo" class="small"></div>
       <input type="number" id="supportAmountUsd" placeholder="Amount in USD (optional)"/>
       <input type="number" id="supportAmountSats" placeholder="Amount in ETH (optional)"/>
-      <div class="small">Fill USD <b>or</b> ETH. Conversion shows automatically.</div>
+      <div class="small">Fill USD or ETH. Conversion shows automatically.</div>
       <div class="qr-box"><canvas id="supportQR" width="200" height="200"></canvas></div>
       <div class="small" id="supportUriBox" style="word-break:break-all;"></div>
       <div style="display:flex; gap:10px; margin-top:6px;">
@@ -350,10 +262,14 @@
       </div>
     </div>
   </div>
+
   <audio id="audio" playsinline preload="auto"></audio>
+
   <script>
+    // Mantido: mesmo worker
     const API_BASE = "https://bongo-api.bongoapi.workers.dev";
     const DEFAULT_TIP = "0x54d544138b9D7Bc747651dd83A6dC34b49D7ecEE";
+
     const AppState = {
       provider: null,
       userAccount: null,
@@ -361,7 +277,7 @@
       currentTrackIndex: 0,
       tracks: [],
       filteredTracks: [],
-      favorites: JSON.parse(localStorage.getItem('bongoCatFavorites') || '[]'),
+      favorites: JSON.parse(localStorage.getItem('pulsefyFavorites') || '[]'),
       isPlaying: false,
       currentSection: 'home',
       uploadPreview: { audio: null, cover: null },
@@ -371,9 +287,8 @@
       _playPingSent: false,
       _playProgressListener: null
     };
-    function getBaseUrl() {
-      return location.origin + location.pathname;
-    }
+
+    function getBaseUrl() { return location.origin + location.pathname; }
     function getTrackShareUrl(track) {
       const id = track?.id ?? '';
       const url = new URL(getBaseUrl());
@@ -385,75 +300,64 @@
       if (!t) return;
       const url = getTrackShareUrl(t);
       const title = t.title || 'Track';
-      const text = `Listen to "${title}" on Pengu Beats`;
+      const text = `Listen to "${title}" on Pulsefy`;
       if (navigator.share) {
-        try {
-          await navigator.share({ title: `Pengu Beats – ${title}`, text, url });
-          return;
-        } catch (_) { /* cancelled or failed; fallback */ }
+        try { await navigator.share({ title: `Pulsefy | ${title}`, text, url }); return; } catch (_) {}
       }
-      try {
-        await navigator.clipboard.writeText(url);
-        alert('Link copied: ' + url);
-      } catch {
-        prompt('Copy the track link:', url);
-      }
+      try { await navigator.clipboard.writeText(url); alert('Link copied: ' + url); }
+      catch { prompt('Copy the track link:', url); }
     }
+
+    // Limites de arquivo
     const LIMITS = {
       audioMaxBytes: 15 * 1024 * 1024,
       imageMaxBytes: 3 * 1024 * 1024,
       audioTypes: new Set(['audio/mpeg']),
       imageTypes: new Set(['image/jpeg','image/png','image/webp']),
     };
-    function fail(msg) {
-      alert(msg);
-      return false;
-    }
-    function validateFile(file, kind) {
+
+    function fail(msg){ alert(msg); return false; }
+    function validateFile(file, kind){
       if (!(file instanceof File)) return { ok:false, reason:'Missing file.' };
-      if (kind === 'audio') {
-        if (!LIMITS.audioTypes.has(file.type)) {
-          return { ok:false, reason:'Only MP3 is accepted.' };
-        }
-        if (file.size > LIMITS.audioMaxBytes) {
-          return { ok:false, reason:'MP3 exceeds 15 MB.' };
-        }
-        if (!/\.(mp3)$/i.test(file.name || '')) {
-          return { ok:false, reason:'Invalid extension: use .mp3' };
-        }
+      if (kind === 'audio'){
+        if (!LIMITS.audioTypes.has(file.type)) return { ok:false, reason:'Only MP3 is accepted.' };
+        if (file.size > LIMITS.audioMaxBytes) return { ok:false, reason:'MP3 exceeds 15 MB.' };
+        if (!/\.(mp3)$/i.test(file.name || '')) return { ok:false, reason:'Invalid extension: use .mp3' };
         return { ok:true };
       }
-      if (kind === 'image') {
-        if (!LIMITS.imageTypes.has(file.type)) {
-          return { ok:false, reason:'Image must be JPG, PNG or WebP.' };
-        }
-        if (file.size > LIMITS.imageMaxBytes) {
-          return { ok:false, reason:'Image exceeds 3 MB.' };
-        }
+      if (kind === 'image'){
+        if (!LIMITS.imageTypes.has(file.type)) return { ok:false, reason:'Image must be JPG, PNG or WebP.' };
+        if (file.size > LIMITS.imageMaxBytes) return { ok:false, reason:'Image exceeds 3 MB.' };
         return { ok:true };
       }
       return { ok:false, reason:'Unknown file type.' };
     }
+
+    // IDs locais
     const DEVICE_ID = (() => {
-      const k = 'bongoDeviceId';
+      const k = 'pulsefyDeviceId';
       let v = localStorage.getItem(k);
       if (!v) { v = (crypto.randomUUID && crypto.randomUUID()) || String(Date.now()); localStorage.setItem(k, v); }
       return v;
     })();
+
+    // Seed local
     const initialTracks = [
-      { id: 1, title: "2010s roadtrip", artist: "Pengu Beats", genre: "Synthwave", cover: "./covers/2010s roadtrip.jpg", audio: "./tracks/2010s roadtrip.mp3" },
-      { id: 2, title: "blockchain", artist: "Pengu Beats", genre: "Electronic", cover: "./covers/blockchain.jpg", audio: "./tracks/blockchain.mp3" },
-      { id: 3, title: "dust e echoes", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/dust e echoes.jpg", audio: "./tracks/dust e echoes.mp3" },
-      { id: 4, title: "edm", artist: "Pengu Beats", genre: "EDM", cover: "./covers/edm.jpg", audio: "./tracks/edm.mp3" },
-      { id: 5, title: "Eletronic", artist: "Pengu Beats", genre: "Electronic", cover: "./covers/eletronic.jpg", audio: "./tracks/Eletronic.mp3" },
-      { id: 6, title: "mountain", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/mountain.jpg", audio: "./tracks/mountain.mp3" },
-      { id: 7, title: "progressive", artist: "Pengu Beats", genre: "Progressive", cover: "./covers/progressive.jpg", audio: "./tracks/progressive.mp3" },
-      { id: 8, title: "Smoke and Chill", artist: "Pengu Beats", genre: "Chill", cover: "./covers/smoke and chill.jpg", audio: "./tracks/Smoke and Chill.mp3" },
-      { id: 9, title: "sunset", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/sunset.jpg", audio: "./tracks/sunset.mp3" },
-      { id: 10, title: "tiktok funk", artist: "Pengu Beats", genre: "Funk", cover: "./covers/tiktok funk.jpg", audio: "./tracks/tiktok funk.mp3" },
-      { id: 11, title: "trance", artist: "Pengu Beats", genre: "Trance", cover: "./covers/trance.jpg", audio: "./tracks/trance.mp3" },
-      { id: 12, title: "vintage rock", artist: "Pengu Beats", genre: "Rock", cover: "./covers/vintage rock.jpg", audio: "./tracks/vintage rock.mp3" }
+      { id: 1, title: "2010s roadtrip", artist: "Pulsefy", genre: "Synthwave", cover: "./covers/2010s roadtrip.jpg", audio: "./tracks/2010s roadtrip.mp3" },
+      { id: 2, title: "blockchain", artist: "Pulsefy", genre: "Electronic", cover: "./covers/blockchain.jpg", audio: "./tracks/blockchain.mp3" },
+      { id: 3, title: "dust e echoes", artist: "Pulsefy", genre: "Ambient", cover: "./covers/dust e echoes.jpg", audio: "./tracks/dust e echoes.mp3" },
+      { id: 4, title: "edm", artist: "Pulsefy", genre: "EDM", cover: "./covers/edm.jpg", audio: "./tracks/edm.mp3" },
+      { id: 5, title: "Eletronic", artist: "Pulsefy", genre: "Electronic", cover: "./covers/eletronic.jpg", audio: "./tracks/Eletronic.mp3" },
+      { id: 6, title: "mountain", artist: "Pulsefy", genre: "Ambient", cover: "./covers/mountain.jpg", audio: "./tracks/mountain.mp3" },
+      { id: 7, title: "progressive", artist: "Pulsefy", genre: "Progressive", cover: "./covers/progressive.jpg", audio: "./tracks/progressive.mp3" },
+      { id: 8, title: "Smoke and Chill", artist: "Pulsefy", genre: "Chill", cover: "./covers/smoke and chill.jpg", audio: "./tracks/Smoke and Chill.mp3" },
+      { id: 9, title: "sunset", artist: "Pulsefy", genre: "Ambient", cover: "./covers/sunset.jpg", audio: "./tracks/sunset.mp3" },
+      { id: 10, title: "tiktok funk", artist: "Pulsefy", genre: "Funk", cover: "./covers/tiktok funk.jpg", audio: "./tracks/tiktok funk.mp3" },
+      { id: 11, title: "trance", artist: "Pulsefy", genre: "Trance", cover: "./covers/trance.jpg", audio: "./tracks/trance.mp3" },
+      { id: 12, title: "vintage rock", artist: "Pulsefy", genre: "Rock", cover: "./covers/vintage rock.jpg", audio: "./tracks/vintage rock.mp3" }
     ];
+
+    // Conversão simples mantendo BTC como no original
     async function fetchBTCUSD() {
       try {
         const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', { cache: 'no-store' });
@@ -465,8 +369,8 @@
     }
     function usdToSats(usd) { if (!AppState.btcUsd) return null; const btc = usd / AppState.btcUsd; return Math.round(btc * 1e8); }
     function satsToUsd(sats) { if (!AppState.btcUsd) return null; return ((sats/1e8) * AppState.btcUsd).toFixed(2); }
-    function formatSats(sats) { return `${sats.toLocaleString()} ETH`; }
-    function makeBitcoinURI(address, sats, label='Pengu Beats') {
+    function formatSats(sats) { return `${sats.toLocaleString()} sats`; }
+    function makeBitcoinURI(address, sats, label='Pulsefy Tip') {
       const amountBtc = (sats/1e8).toFixed(8);
       const q = new URLSearchParams({ amount: amountBtc, label });
       return `bitcoin:${address}?${q.toString()}`;
@@ -481,21 +385,16 @@
         ctx.fillText("Click the link below", c.width/2, c.height/2 + 12);
       } catch(e) {}
     }
+
     const idEq = (a, b) => String(a) === String(b);
+
     function previewTrack() {
       const el = document.getElementById('trackFile');
       const f = el.files[0];
       if (f) {
         const v = validateFile(f, 'audio');
-        if (!v.ok) {
-          fail(v.reason);
-          el.value = '';
-          AppState.uploadPreview.audio = null;
-          updateUploadPreview();
-          return;
-        }
-        AppState.uploadPreview.audio = f;
-        updateUploadPreview();
+        if (!v.ok) { fail(v.reason); el.value = ''; AppState.uploadPreview.audio = null; updateUploadPreview(); return; }
+        AppState.uploadPreview.audio = f; updateUploadPreview();
       }
     }
     function previewCover() {
@@ -503,15 +402,8 @@
       const f = el.files[0];
       if (f) {
         const v = validateFile(f, 'image');
-        if (!v.ok) {
-          fail(v.reason);
-          el.value = '';
-          AppState.uploadPreview.cover = null;
-          updateUploadPreview();
-          return;
-        }
-        AppState.uploadPreview.cover = f;
-        updateUploadPreview();
+        if (!v.ok) { fail(v.reason); el.value = ''; AppState.uploadPreview.cover = null; updateUploadPreview(); return; }
+        AppState.uploadPreview.cover = f; updateUploadPreview();
       }
     }
     function updateUploadPreview() {
@@ -535,6 +427,7 @@
           </div>`;
       } else { container.innerHTML = ''; }
     }
+
     function setUploading(isOn) {
       AppState.isUploading = isOn;
       const btn = document.getElementById('uploadBtn');
@@ -544,6 +437,7 @@
       btn.style.pointerEvents = isOn ? 'none' : 'auto';
       btn.innerHTML = isOn ? '<span class="loading-spinner"></span> Uploading...' : '⬆️ Upload';
     }
+
     async function sha256(blob) {
       const buf = await blob.arrayBuffer();
       const hash = await crypto.subtle.digest('SHA-256', buf);
@@ -552,11 +446,12 @@
     async function getIdempotencyKey(audioFile, title, artist) {
       try {
         const h = await sha256(audioFile);
-        return `bongo:${h}:${(artist||'').trim().toLowerCase()}:${(title||'').trim().toLowerCase()}`;
+        return `pulsefy:${h}:${(artist||'').trim().toLowerCase()}:${(title||'').trim().toLowerCase()}`;
       } catch {
         return (crypto.randomUUID && crypto.randomUUID()) || String(Date.now());
       }
     }
+
     async function processUpload() {
       if (AppState.isUploading) return;
       setUploading(true);
@@ -566,25 +461,17 @@
       const audioFile = audioFileEl.files[0];
       const coverFileEl = document.getElementById('coverFile');
       const coverFile = coverFileEl.files[0] || null;
-      if (!title || !artist) {
-        setUploading(false);
-        return fail('Please fill in title and artist.');
-      }
-      if (!audioFile) {
-        setUploading(false);
-        return fail('Please select an MP3 file.');
-      }
-      const av = validateFile(audioFile, 'audio');
-      if (!av.ok) { setUploading(false); return fail(av.reason); }
-      if (coverFile) {
-        const cv = validateFile(coverFile, 'image');
-        if (!cv.ok) { setUploading(false); return fail(cv.reason); }
-      }
+      if (!title || !artist) { setUploading(false); return fail('Please fill in title and artist.'); }
+      if (!audioFile) { setUploading(false); return fail('Please select an MP3 file.'); }
+      const av = validateFile(audioFile, 'audio'); if (!av.ok) { setUploading(false); return fail(av.reason); }
+      if (coverFile) { const cv = validateFile(coverFile, 'image'); if (!cv.ok) { setUploading(false); return fail(cv.reason); } }
+
       try {
         const genre = document.getElementById('trackGenre').value || 'Unknown';
         const tipAddress = (document.getElementById('tipWallet').value || '').trim();
         const twitter = (document.getElementById('twitterHandle').value || '').trim();
         const idemKey = await getIdempotencyKey(audioFile, title, artist);
+
         const fd = new FormData();
         fd.append('title', title);
         fd.append('artist', artist);
@@ -595,6 +482,7 @@
         fd.append('audio', audioFile);
         if (coverFile) fd.append('cover', coverFile);
         fd.append('idempotencyKey', idemKey);
+
         const res = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body: fd });
         if (!res.ok) {
           if (res.status === 413) throw new Error('File too large (limits: MP3 up to 15 MB; image up to 3 MB).');
@@ -616,12 +504,10 @@
         setUploading(false);
       }
     }
+
     function generateDefaultCover(title) {
       const raw = String(title || '').slice(0, 20);
-      const safeText = raw
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
+      const safeText = raw.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
         <rect width="200" height="200" fill="#333"/>
         <text x="100" y="100" text-anchor="middle" fill="#00cc99" font-size="30">🎵</text>
@@ -638,14 +524,14 @@
       AppState.uploadPreview = { audio: null, cover: null };
       document.getElementById('uploadPreview').innerHTML = '';
     }
+
     function openSupportModal(trackId) {
       const tId = String(trackId);
       const track = AppState.tracks.find(t => String(t.id) === tId);
       if (!track) return;
       const addr = (track.tipAddress && track.tipAddress.trim()) ? track.tipAddress : DEFAULT_TIP;
       AppState.pendingSupport = { trackId: tId, address: addr, sats: null };
-      document.getElementById('supportInfo').innerHTML =
-        `Send support to <b>${track.title}</b> – <span class="small">${addr}</span>`;
+      document.getElementById('supportInfo').innerHTML = `Send support to <b>${track.title}</b> – <span class="small">${addr}</span>`;
       document.getElementById('supportAmountUsd').value = '';
       document.getElementById('supportAmountSats').value = '';
       document.getElementById('supportUriBox').innerHTML = '';
@@ -668,13 +554,14 @@
       }
       if (sats && AppState.pendingSupport) {
         AppState.pendingSupport.sats = sats;
-        const uri = makeBitcoinURI(AppState.pendingSupport.address, sats, 'Pengu Beats Tip');
+        const uri = makeBitcoinURI(AppState.pendingSupport.address, sats, 'Pulsefy Tip');
         document.getElementById('supportUriBox').innerHTML = `<a href="${uri}">${uri}</a>`;
         drawQR('supportQR', uri);
       }
     }
     document.getElementById('supportAmountUsd').addEventListener('input', updateSupportConversion);
     document.getElementById('supportAmountSats').addEventListener('input', updateSupportConversion);
+
     function confirmSupportPayment() {
       const ctx = AppState.pendingSupport;
       if (!ctx || !ctx.sats) { return; }
@@ -686,6 +573,7 @@
       toggleModal('supportModal', false);
       AppState.pendingSupport = null;
     }
+
     AppState.prevVolume = 1;
     function applyVolIcon(v){
       const icon = document.getElementById('volIcon');
@@ -702,24 +590,18 @@
       const val = document.getElementById('volValue');
       if (slider) slider.value = vol;
       if (val) val.textContent = `${Math.round(vol*100)}%`;
-      localStorage.setItem('bongoVol', String(vol));
+      localStorage.setItem('pulsefyVol', String(vol));
       applyVolIcon(vol);
     }
     function toggleMute(){
       const audio = document.getElementById('audio');
-      if (audio.volume > 0){
-        AppState.prevVolume = audio.volume;
-        setVolume(0);
-      } else {
-        setVolume(AppState.prevVolume || 1);
-      }
+      if (audio.volume > 0){ AppState.prevVolume = audio.volume; setVolume(0); }
+      else { setVolume(AppState.prevVolume || 1); }
     }
     function openVol(show){
       const box = document.getElementById('volPopover');
       if (!box) return;
-      if (matchMedia('(hover: hover)').matches){
-        box.classList.toggle('open', !!show);
-      }
+      if (matchMedia('(hover: hover)').matches){ box.classList.toggle('open', !!show); }
     }
     document.addEventListener('click', (e)=>{
       const pop = document.getElementById('volPopover');
@@ -727,11 +609,8 @@
       if (!pop || !btn) return;
       const isBtn = btn.contains(e.target);
       const isPop = pop.contains(e.target);
-      if (isBtn && !matchMedia('(hover: hover)').matches){
-        pop.classList.toggle('open');
-      } else if (!isBtn && !isPop){
-        pop.classList.remove('open');
-      }
+      if (isBtn && !matchMedia('(hover: hover)').matches){ pop.classList.toggle('open'); }
+      else if (!isBtn && !isPop){ pop.classList.remove('open'); }
     });
     ['volPopover','muteBtn'].forEach(id=>{
       const el = document.getElementById(id);
@@ -743,6 +622,7 @@
         setVolume((audio.volume || 0) + delta);
       }, { passive:false });
     });
+
     async function fetchMetricsByIds(ids) {
       if (!ids || !ids.length) return [];
       const qs = new URLSearchParams({ ids: ids.map(String).join(',') });
@@ -752,8 +632,7 @@
     }
     async function sendLike(trackId, like) {
       const res = await fetch(`${API_BASE}/api/tracks/${trackId}/like`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ device: DEVICE_ID, like: !!like })
       });
       if (!res.ok) throw new Error('like API error');
@@ -761,35 +640,39 @@
     }
     async function sendPlay(trackId) {
       const res = await fetch(`${API_BASE}/api/tracks/${trackId}/play`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ device: DEVICE_ID })
       });
       try { return await res.json(); } catch { return null; }
     }
+
     function playTrack(trackId) {
       const tId = String(trackId);
       const track = AppState.tracks.find(t => String(t.id) === tId);
       if (!track) return;
       AppState.currentTrack = track;
       AppState.currentTrackIndex = AppState.tracks.findIndex(t => String(t.id) === tId);
+
       const audio = document.getElementById('audio');
       audio.src = track.audio; audio.load();
-      const savedVol2 = parseFloat(localStorage.getItem('bongoVol'));
+      const savedVol2 = parseFloat(localStorage.getItem('pulsefyVol'));
       audio.volume = Number.isFinite(savedVol2) ? savedVol2 : audio.volume;
       applyVolIcon(audio.volume);
       const volVal = document.getElementById('volValue');
       const volSlider = document.getElementById('volume');
       if (volVal) volVal.textContent = `${Math.round(audio.volume*100)}%`;
       if (volSlider) volSlider.value = audio.volume;
+
       document.getElementById('currentCover').src = track.cover || '';
       document.getElementById('currentCover').style.visibility = track.cover ? 'visible' : 'hidden';
       document.getElementById('currentTitle').textContent = track.title;
       document.getElementById('currentArtist').textContent = track.artist;
+
       renderTracks();
       document.querySelectorAll('.track').forEach(el => el.classList.remove('playing'));
       document.querySelector(`[data-track-id="${tId}"]`)?.classList.add('playing');
       if (window.innerWidth <= 980) closeSidebar();
+
       audio.oncanplaythrough = () => {
         audio.play().then(() => {
           AppState.isPlaying = true;
@@ -800,6 +683,7 @@
         });
         audio.oncanplaythrough = null;
       };
+
       AppState._playPingSent = false;
       if (AppState._playProgressListener) {
         audio.removeEventListener('timeupdate', AppState._playProgressListener);
@@ -830,25 +714,20 @@
       AppState._playProgressListener = onPlayProgressOnce;
       audio.addEventListener('timeupdate', onPlayProgressOnce);
     }
+
     function togglePlay() {
       const audio = document.getElementById('audio');
       if (!AppState.currentTrack) { if (AppState.tracks.length > 0) playTrack(AppState.tracks[0].id); return; }
       if (AppState.isPlaying) {
-        audio.pause();
-        document.getElementById('playPause').innerHTML = '<span class="material-icons">play_arrow</span>';
+        audio.pause(); document.getElementById('playPause').innerHTML = '<span class="material-icons">play_arrow</span>';
       } else {
-        audio.play().then(()=>{
-          document.getElementById('playPause').innerHTML = '<span class="material-icons">pause</span>';
-        }).catch(()=>{ /* ignore */ });
+        audio.play().then(()=>{ document.getElementById('playPause').innerHTML = '<span class="material-icons">pause</span>'; }).catch(()=>{});
       }
       AppState.isPlaying = !AppState.isPlaying;
     }
     function prevTrack() { if (AppState.currentTrackIndex > 0) playTrack(AppState.tracks[AppState.currentTrackIndex - 1].id); }
     function nextTrack() { if (AppState.currentTrackIndex < AppState.tracks.length - 1) playTrack(AppState.tracks[AppState.currentTrackIndex + 1].id); }
-    function seekTrack(value) {
-      const audio = document.getElementById('audio');
-      if (audio.duration) audio.currentTime = audio.duration * (value / 100);
-    }
+    function seekTrack(value) { const audio = document.getElementById('audio'); if (audio.duration) audio.currentTime = audio.duration * (value / 100); }
     function updateProgress() {
       const audio = document.getElementById('audio');
       if (audio.duration) {
@@ -859,22 +738,22 @@
       }
     }
     function formatTime(seconds) { const mins = Math.floor(seconds / 60); const secs = Math.floor(seconds % 60); return `${mins}:${secs.toString().padStart(2, '0')}`; }
+
     async function toggleFavorite(trackId) {
       const tId = String(trackId);
       const i = AppState.favorites.findIndex(id => idEq(id, tId));
       const wasFav = i > -1;
       if (wasFav) AppState.favorites.splice(i, 1);
       else AppState.favorites.push(tId);
-      localStorage.setItem('bongoCatFavorites', JSON.stringify(AppState.favorites));
+      localStorage.setItem('pulsefyFavorites', JSON.stringify(AppState.favorites));
       try {
         const data = await sendLike(tId, !wasFav);
         const track = AppState.tracks.find(t => idEq(t.id, tId));
         if (track && typeof data.likesCount === 'number') track.likesCount = data.likesCount;
-      } catch (e) {
-        console.warn('like sync failed', e);
-      }
+      } catch (e) { console.warn('like sync failed', e); }
       persistTracks(); renderTracks(); renderFavorites();
     }
+
     function sortTracksForRanking() {
       AppState.tracks.sort((a, b) => {
         const pa = a.playCount || 0, pb = b.playCount || 0;
@@ -884,34 +763,23 @@
         return (a.id || 0) - (b.id || 0);
       });
     }
+
     const keyOf = (t) => (t?.id ?? t?.audio);
     function mergeTrackLists(backendList, localList) {
       const map = new Map();
-      for (const t of (localList || [])) {
-        if (!t) continue;
-        const k = keyOf(t);
-        if (k != null) map.set(k, { ...t });
-      }
+      for (const t of (localList || [])) { if (!t) continue; const k = keyOf(t); if (k != null) map.set(k, { ...t }); }
       for (const t of (backendList || [])) {
-        if (!t) continue;
-        const k = keyOf(t);
-        if (k == null) continue;
+        if (!t) continue; const k = keyOf(t); if (k == null) continue;
         map.set(k, { ...(map.get(k) || {}), ...t });
       }
       return Array.from(map.values());
     }
     function dedupeByKey(arr) {
-      const seen = new Set();
-      const out = [];
-      for (const t of arr) {
-        const k = keyOf(t);
-        if (k == null) { out.push(t); continue; }
-        if (seen.has(k)) continue;
-        seen.add(k);
-        out.push(t);
-      }
+      const seen = new Set(); const out = [];
+      for (const t of arr) { const k = keyOf(t); if (k == null) { out.push(t); continue; } if (seen.has(k)) continue; seen.add(k); out.push(t); }
       return out;
     }
+
     function createTrackHTML(track, rank) {
       const isFavorite = AppState.favorites.some(id => idEq(id, track.id));
       const likes = track.likesCount || 0;
@@ -935,12 +803,11 @@
             <span class="meta-pill">❤️ <span id="likes-${track.id}">${likes}</span></span>
             <button class="support-btn" onclick="shareTrack('${idStr}')">Share</button>
             ${(track.tipAddress || DEFAULT_TIP) ? `<button class="support-btn" onclick="openSupportModal('${idStr}')">Support</button>` : ''}
-            <span class="favorite-icon ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${idStr}')">
-              ${isFavorite ? '❤️' : '🤍'}
-            </span>
+            <span class="favorite-icon ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${idStr}')">${isFavorite ? '❤️' : '🤍'}</span>
           </div>
         </div>`;
     }
+
     function renderTracks() {
       const container = document.getElementById('tracksList');
       const source = AppState.filteredTracks.length > 0 ? AppState.filteredTracks.slice() : AppState.tracks.slice();
@@ -956,12 +823,13 @@
           <div class="empty-state">
             <span class="cat-emoji">🎹</span>
             <h3>No tracks found</h3>
-            <p>Upload some music to get started!</p>
+            <p>Upload some music to get started</p>
           </div>`;
         return;
       }
       container.innerHTML = source.map((track, index) => createTrackHTML(track, index + 1)).join('');
     }
+
     function renderFavorites() {
       const container = document.getElementById('favoritesList');
       const favIds = new Set((AppState.favorites || []).map(String));
@@ -970,13 +838,14 @@
         container.innerHTML = `
           <div class="empty-state">
             <span class="cat-emoji">😺</span>
-            <h3>No favorites yet!</h3>
-            <p>Start hearting some tracks to see them here</p>
+            <h3>No favorites yet</h3>
+            <p>Heart some tracks to see them here</p>
           </div>`;
         return;
       }
       container.innerHTML = favTracks.map((track, index) => createTrackHTML(track, index + 1)).join('');
     }
+
     function filterTracks() {
       const query = document.getElementById('searchBar').value.toLowerCase().trim();
       if (!query) AppState.filteredTracks = [];
@@ -990,6 +859,7 @@
       }
       renderTracks();
     }
+
     function showSection(sectionId) {
       document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('#sidebar nav a').forEach(el => el.classList.remove('active'));
@@ -999,29 +869,17 @@
       if (sectionId === 'favorites') renderFavorites();
       if (window.innerWidth <= 980) closeSidebar();
     }
+
     function toggleModal(id, show) { document.getElementById(id).classList.toggle('active', show); }
     function toggleUpload() { toggleModal('uploadModal', true); fetchBTCUSD(); }
-    function persistTracks() { localStorage.setItem('bongoCatTracks', JSON.stringify(AppState.tracks)); }
-    function openSidebar(){
-      const sb = document.getElementById('sidebar');
-      const ov = document.getElementById('sidebarOverlay');
-      sb.classList.add('open');
-      if (window.innerWidth <= 980) ov.classList.add('show');
-    }
-    function closeSidebar(){
-      const sb = document.getElementById('sidebar');
-      const ov = document.getElementById('sidebarOverlay');
-      sb.classList.remove('open');
-      ov.classList.remove('show');
-    }
-    function toggleSidebar(){
-      const sb = document.getElementById('sidebar');
-      if (sb.classList.contains('open')) closeSidebar(); else openSidebar();
-    }
-    function toggleHowItWorks() {
-      const box = document.getElementById('howItWorksBox');
-      box.classList.toggle('show');
-    }
+
+    function persistTracks() { localStorage.setItem('pulsefyTracks', JSON.stringify(AppState.tracks)); }
+
+    function openSidebar(){ const sb = document.getElementById('sidebar'); const ov = document.getElementById('sidebarOverlay'); sb.classList.add('open'); if (window.innerWidth <= 980) ov.classList.add('show'); }
+    function closeSidebar(){ const sb = document.getElementById('sidebar'); const ov = document.getElementById('sidebarOverlay'); sb.classList.remove('open'); ov.classList.remove('show'); }
+    function toggleSidebar(){ const sb = document.getElementById('sidebar'); if (sb.classList.contains('open')) closeSidebar(); else openSidebar(); }
+    function toggleHowItWorks() { const box = document.getElementById('howItWorksBox'); box.classList.toggle('show'); }
+
     async function loadPublicTracks() {
       try {
         const res = await fetch(`${API_BASE}/api/tracks`, { cache: 'no-store' });
@@ -1035,16 +893,18 @@
         }));
       } catch { return []; }
     }
+
     async function initializeApp() {
       AppState.favorites = (AppState.favorites || []).map(String);
       const publicTracks = await loadPublicTracks();
-      const savedTracks = localStorage.getItem('bongoCatTracks');
+      const savedTracks = localStorage.getItem('pulsefyTracks');
       const local = savedTracks
         ? JSON.parse(savedTracks)
         : initialTracks.map(t => ({ ...t, likesCount: 0, tipTotalSats: 0, playCount: 0, tipAddress: null, twitter: '' }));
       let merged = mergeTrackLists(publicTracks, local);
       merged = merged.map(t => ({ likesCount: 0, tipTotalSats: 0, playCount: 0, twitter: '', ...t }));
       AppState.tracks = dedupeByKey(merged);
+
       const ids = AppState.tracks.map(t => t.id).filter(v => v != null);
       if (ids.length) {
         try {
@@ -1057,7 +917,9 @@
           });
         } catch (e) { console.warn('metrics sync failed', e); }
       }
+
       sortTracksForRanking();
+
       const audio = document.getElementById('audio');
       audio.addEventListener('timeupdate', updateProgress);
       audio.addEventListener('ended', nextTrack);
@@ -1066,10 +928,13 @@
         document.getElementById('currentTime').textContent = '0:00';
         document.getElementById('totalTime').textContent = '0:00';
       });
-      const savedVol = parseFloat(localStorage.getItem('bongoVol'));
+
+      const savedVol = parseFloat(localStorage.getItem('pulsefyVol'));
       setVolume(Number.isFinite(savedVol) ? savedVol : 1);
+
       renderTracks();
       fetchBTCUSD();
+
       try {
         const params = new URLSearchParams(location.search);
         const tId = params.get('track');
@@ -1077,16 +942,15 @@
           const exists = AppState.tracks.some(t => String(t.id) === String(tId));
           if (exists) {
             playTrack(String(tId));
-            setTimeout(() => {
-              const selector = `[data-track-id="${tId.replace(/"/g,'\\"')}"]`;
-              document.querySelector(selector)?.scrollIntoView({ behavior:'smooth', block:'center' });
-            }, 100);
+            setTimeout(() => { document.querySelector(`[data-track-id="${tId.replace(/"/g,'\\"')}"]`)?.scrollIntoView({ behavior:'smooth', block:'center' }); }, 100);
           }
         }
       } catch {}
-      console.log('🐱 Pengu Beats initialized');
+
+      console.log('Pulsefy initialized');
     }
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
 </body>
 </html>
+
