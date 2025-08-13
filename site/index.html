@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pengu Beats – Stream Your Music on Abstract</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=1">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png?v=1">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=1">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box }
+    body { display:flex; height:100vh; font-family:'Segoe UI',sans-serif; background:#0d0d0d; color:#e0e0e0; overflow:hidden }
+    #sidebar { width:280px; padding:20px; background:rgba(20,20,20,0.9); backdrop-filter:blur(8px); display:flex; flex-direction:column; gap:20px; border-right:1px solid #333 }
+    #sidebar h1 { font-size:2rem; color:#00cc99; display:flex; align-items:center; gap:10px }
+    .cat-emoji { font-size: 3.16rem; width: 51px;}
+    #sidebar nav a, #sidebar nav button { display:block; padding:12px 0; color:#bbb; cursor:pointer; text-decoration:none; background:none; border:none; font:inherit; text-align:left; transition:color .2s; font-size:1rem }
+    #sidebar nav .cta-row{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+    #sidebar nav .btn-ghost{
+      flex:1;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border:1px solid #333;
+      border-radius:8px;
+      background:#151515;
+      color:#bbb;
+      text-decoration:none;
+      font-size:0.95rem;
+      transition:background .2s, border-color .2s, color .2s, transform .15s;
+    }
+    #sidebar nav .btn-ghost:hover{
+      background:#1b1b1b;
+      border-color:#00cc99;
+      color:#00cc99;
+      transform:translateY(-1px);
+    }
+    #sidebar nav a.active, #sidebar nav a:hover, #sidebar nav button:hover { color:#00cc99 }
+    #main { flex:1; display:flex; flex-direction:column }
+    header { padding:20px; background:rgba(20,20,20,0.9); border-bottom:1px solid #333; display:flex; align-items:center; gap:15px }
+    #searchBar { flex:1; padding:12px 15px; background:#111; border:1px solid #333; color:#eee; font-size:1rem; border-radius:8px }
+    .header-info { color:#00cc99; font-size:0.9rem; white-space:nowrap }
+    #contentArea { flex:1; overflow-y:auto; padding:20px; background:#121212; padding-bottom:100px }
+    .section { display:none }
+    .section.active { display:block }
+    .track { display:flex; align-items:center; gap:15px; padding:15px; border-radius:8px; margin-bottom:15px; cursor:pointer; transition:all .2s; background:rgba(30,30,30,0.5); border:1px solid transparent }
+    .track:hover { background:rgba(0,204,153,0.1); border-color:#00cc99 }
+    .track.playing { background:rgba(0,204,153,0.2); border-color:#00cc99 }
+    .track img { width:60px; height:60px; object-fit:cover; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.5) }
+    .track-info { flex:1 }
+    .track-info .title { font-weight:bold; font-size:1.1rem; margin-bottom:4px }
+    .track-info .artist { color:#aaa; font-size:0.9rem }
+    .track-info .genre { font-size:0.8rem; color:#00cc99; margin-top:4px }
+    .track-info .tw { font-size:0.8rem; color:#55acee; margin-top:4px; word-break:break-all }
+    .rank { font-size:1rem; width:30px; text-align:center; color:#00cc99; font-weight:bold }
+    .favorite-icon { font-size:24px; color:#666; cursor:pointer; user-select:none; transition:color .2s }
+    .favorite-icon.active { color:#00cc99 }
+    .support-btn { background:#00cc99; border:none; color:#000; padding:8px 12px; border-radius:6px; cursor:pointer; font-size:.85rem; margin-left:8px; transition:background .2s; font-weight:bold }
+    .support-btn:hover { background:#00b386 }
+    .meta-line { display:flex; align-items:center; gap:12px; font-size:0.9rem; color:#bbb; margin-left:auto }
+    .meta-pill { display:inline-flex; align-items:center; gap:6px; padding:4px 8px; background:#1f1f1f; border:1px solid #333; border-radius:999px; }
+    #playerBar { position:fixed; bottom:0; left:0; width:100%; height:90px; background:rgba(20,20,20,0.95); backdrop-filter:blur(15px); border-top:1px solid #333; display:flex; align-items:center; padding:0 20px; gap:20px; z-index:1200 }
+    #currentCover { width:70px; height:70px; border-radius:8px; object-fit:cover; box-shadow:0 4px 12px rgba(0,0,0,0.7) }
+    #playerControls { flex:1; display:flex; align-items:center; gap:20px }
+    #playerControls button { background:none; border:none; font-size:32px; color:#eee; cursor:pointer; transition:all .15s }
+    #playerControls button:hover { transform:scale(1.1); color:#00cc99 }
+    #playerControls button:active { transform:scale(0.95) }
+    .progress-container { flex:1; display:flex; flex-direction:column; gap:6px }
+    input[type=range] { -webkit-appearance:none; width:100%; height:6px; background:#333; border-radius:3px; outline:none }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:16px; height:16px; border-radius:50%; background:#00cc99; box-shadow:0 2px 8px rgba(0,204,153,0.7); cursor:pointer }
+    .time-display { display:flex; justify-content:space-between; font-size:12px; color:#888 }
+    #trackInfo { display:flex; flex-direction:column; gap:4px; max-width:250px }
+    #currentTitle { font-weight:bold; color:#fff; font-size:1rem }
+    #currentArtist { font-size:.9rem; color:#aaa }
+    .modal-backdrop { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000 }
+    .modal-backdrop.active { display:flex }
+    .modal { background:#1a1a1a; padding:30px; border-radius:12px; width:420px; display:flex; flex-direction:column; gap:12px; border:1px solid #333 }
+    .modal {
+      max-height: 90vh;
+      overflow: auto;
+      width: min(420px, 92vw);
+    }
+    .modal-backdrop { padding: 16px; }
+    .modal h2 { color:#00cc99; margin-bottom:6px; font-size:1.4rem }
+    .modal label { font-size:0.9rem; color:#bbb }
+    .modal input[type=text], .modal input[type=file], .modal input[type=number] { padding:12px; background:#111; border:1px solid #333; border-radius:6px; color:#eee; font-size:1rem }
+    .modal input[type=file] { padding:8px }
+    .modal button { padding:12px 20px; border:none; border-radius:6px; cursor:pointer; transition:background .2s; font-size:1rem; font-weight:bold }
+    .modal button.confirm { background:#00cc99; color:#000 }
+    .modal button.confirm:hover { background:#00b386 }
+    .modal button.cancel { background:#333; color:#eee }
+    .modal button.cancel:hover { background:#444 }
+    .loading-spinner {
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top: 3px solid #00cc99;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    .empty-state { text-align:center; padding:60px 20px; color:#666 }
+    .empty-state .cat-emoji { font-size:4rem; margin-bottom:20px; display:block }
+    .upload-preview { display:flex; gap:15px; margin-top:10px; padding:15px; background:#222; border-radius:8px }
+    .upload-preview img { width:80px; height:80px; object-fit:cover; border-radius:6px }
+    .upload-info { flex:1 }
+    .upload-info h4 { color:#00cc99; margin-bottom:5px }
+    .upload-info p { color:#aaa; font-size:0.9rem }
+    .qr-box { background:#111; border:1px solid #333; border-radius:8px; padding:12px; display:flex; justify-content:center }
+    .small { font-size:0.85rem; color:#bbb }
+    .notice { background:#222; border:1px solid #333; padding:10px; border-radius:8px; font-size:0.95rem }
+    .volume { position: relative; display:flex; align-items:center }
+    .vol-btn {
+      position: relative; width:40px; height:40px; border-radius:999px;
+      border:1px solid #333; background:#151515; display:inline-grid; place-items:center;
+      cursor:pointer; transition:transform .15s, border-color .2s, background .2s;
+    }
+    .vol-btn:hover { transform:scale(1.05); border-color:#00cc99; background:#1b1b1b }
+    #volIcon { font-size:22px; color:#eee; pointer-events:none }
+    .waves::before, .waves::after {
+      content:""; position:absolute; inset:0; border-radius:999px;
+      border:1px solid rgba(0,204,153,.2); transform:scale(1); opacity:.8; animation: ping 1.4s ease-out infinite;
+    }
+    .waves::after { animation-delay:.7s; }
+    @keyframes ping { 0%{transform:scale(1);opacity:.8} 100%{transform:scale(1.6);opacity:0} }
+    .vol-popover {
+      position:absolute; bottom:52px; left:50%; transform:translateX(-50%) scale(.98);
+      background:#121212; border:1px solid #333; border-radius:10px; padding:10px 12px;
+      box-shadow:0 8px 24px rgba(0,0,0,.5); display:none; gap:10px; align-items:center;
+    }
+    .vol-popover.open { display:flex; transform:translateX(-50%) scale(1); }
+    .vol-popover input[type=range]{
+      -webkit-appearance:none; width:130px; height:6px; background:#333; border-radius:999px; outline:none;
+      transform:rotate(-90deg);
+    }
+    .vol-popover input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none; width:14px; height:14px; border-radius:999px; background:#00cc99; box-shadow:0 0 8px rgba(0,204,153,.7)
+    }
+    .vol-value{ font-size:.85rem; color:#bbb; min-width:40px; text-align:center }
+    .hamburger{ display:none; background:none; border:none; font-size:28px; color:#eee; cursor:pointer }
+    .hamburger:hover{ color:#00cc99 }
+    #sidebarOverlay{ display:none }
+    #sidebar .sidebar-close { display: none; }
+    @media (max-width: 980px){
+      body { height:auto; overflow:visible }
+      #sidebar{
+        position:fixed; top:0; left:-100%; height:100vh; z-index:1100; width:78vw; max-width:320px;
+        transition:left .25s ease; box-shadow: 8px 0 24px rgba(0,0,0,.5)
+      }
+      #sidebar.open{ left:0 }
+      #sidebar .sidebar-close{
+        display:inline-flex; position:absolute; top:12px; right:12px; background:#222; border:1px solid #444;
+        border-radius:8px; padding:6px; color:#eee; cursor:pointer
+      }
+      #main{ width:100% }
+      header{ gap:10px }
+      .hamburger{ display:inline-flex }
+      .header-info{ display:none }
+      #currentCover{ display:none }
+      #playerBar{ height:76px; padding:0 12px; gap:12px; display:flex !important; padding-bottom: env(safe-area-inset-bottom, 0px) }
+      #trackInfo{ max-width:40vw }
+      @media (max-width: 980px){
+        .track{
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+        .meta-line{
+          display: flex;
+          margin-left: 0;
+          width: 100%;
+          gap: 8px;
+          margin-top: 8px;
+          flex-wrap: wrap;
+        }
+      }
+      .modal{ width:min(420px, 96vw) }
+      #sidebarOverlay{
+        display:block; position:fixed; inset:0; background:rgba(0,0,0,.45);
+        z-index:1099; opacity:0; pointer-events:none; transition:opacity .2s ease
+      }
+      #sidebarOverlay.show{ opacity:1; pointer-events:auto }
+    }
+    @media (max-width: 420px){
+      #searchBar{ font-size:.95rem; padding:10px 12px }
+      #currentTitle{ font-size:.95rem }
+      #currentArtist{ font-size:.8rem }
+    }
+    #howItWorksBtn {
+      width: 100%;
+      margin-top: 10px;
+      text-align: center;
+    }
+    .how-it-works-box {
+      margin-top: 10px;
+      background: #1b1b1b;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.9rem;
+      color: #bbb;
+      display: none;
+    }
+    .how-it-works-box.show {
+      display: block;
+    }
+    #sidebar nav .btn-ghost.cta-buy{
+      display:block; width:100%; margin-top:12px; text-align:center;
+    }
+    #sidebar nav .btn-ghost.cta-buy:hover{
+      background:#00b386;
+      border-color:#00b386;
+      color:#000;
+      transform:translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+<h1>
+      <img src="./logo.png" alt="Pengu Beats" class="cat-emoji" style="width: 61.2px; font-size: 3.8rem;"/>
+      <span style="font-size: 1.6rem;">Pengu Beats</span>
+    </h1>
+    <button class="sidebar-close" aria-label="Close" onclick="closeSidebar()">
+      <span class="material-icons">close</span>
+    </button>
+    <nav>
+      <a id="nav-home" class="active" onclick="showSection('home')">🏠 Home</a>
+      <a id="nav-fav" onclick="showSection('favorites')">❤️ Favorites</a>
+      <button onclick="toggleUpload()">🎵 Upload Track</button>
+      <div class="cta-row">
+        <a class="btn-ghost" href="https://pengu-beats.gitbook.io/pengu-beats" target="_blank" rel="noopener" aria-label="Open documentation">
+          📘 Docs
+        </a>
+        <a class="btn-ghost" href="https://x.com/PenguBeats" target="_blank" rel="noopener" aria-label="Open X (Twitter) profile">
+          𝕏 Twitter
+        </a>
+      </div>
+      <button class="btn-ghost" id="howItWorksBtn" onclick="toggleHowItWorks()">❓ How it works</button>
+      <div class="how-it-works-box" id="howItWorksBox">
+        <p><strong>Pengu Beats</strong> is a free music platform. You can listen anytime you want without paying anything.</p>
+        <p>You can also upload your own tracks and even earn <strong>ETH</strong> from community support. It's simple, fast, and fee‑free.</p>
+      </div>
+      <a id="buyBongoBtn" class="btn-ghost cta-buy" href="https://dexscreener.com/" target="_blank" rel="noopener" aria-label="Buy $PENGU">🟠 Buy $PBEATS</a>
+    </nav>
+    <div style="margin-top:auto;">
+      <div style="color:#00cc99; font-size:0.9rem; margin-bottom:10px;">🎹 Producer Portal</div>
+      <div id="walletAddress" style="color:#fff; font-size:0.85rem; word-break:break-all;"></div>
+    </div>
+  </div>
+  <div id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <div id="main">
+    <header>
+      <button class="hamburger" aria-label="Menu" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+      <input id="searchBar" type="text" placeholder="Search tracks, artists..." oninput="filterTracks()"/>
+      <div class="header-info">
+        <div>💿 Abstract Music Platform</div>
+      </div>
+    </header>
+    <div id="contentArea">
+      <div id="home" class="section active">
+        <h2 style="color:#00cc99; margin-bottom:20px; font-size:1.5rem">🎵 Featured Tracks</h2>
+        <div id="tracksList"></div>
+      </div>
+      <div id="favorites" class="section">
+        <h2 style="color:#00cc99; margin-bottom:20px; font-size:1.5rem">❤️ Your Favorites</h2>
+        <div id="favoritesList">
+          <div class="empty-state">
+            <span class="cat-emoji">😺</span>
+            <h3>No favorites yet!</h3>
+            <p>Start hearting some tracks to see them here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="playerBar">
+    <img id="currentCover" src="" alt="Cover" style="visibility:hidden"/>
+    <div id="trackInfo">
+      <div id="currentTitle">Select a track</div>
+      <div id="currentArtist">Pengu Beats</div>
+    </div>
+    <div id="playerControls">
+      <button onclick="prevTrack()"><span class="material-icons">skip_previous</span></button>
+      <button id="playPause" onclick="togglePlay()"><span class="material-icons">play_arrow</span></button>
+      <button onclick="nextTrack()"><span class="material-icons">skip_next</span></button>
+      <div class="progress-container">
+        <input id="progress" type="range" min="0" max="100" step="0.1" value="0" oninput="seekTrack(this.value)" onchange="seekTrack(this.value)"/>
+        <div class="time-display">
+          <span id="currentTime">0:00</span>
+          <span id="totalTime">0:00</span>
+        </div>
+      </div>
+      <div class="volume" onmouseenter="openVol(true)" onmouseleave="openVol(false)">
+        <button id="muteBtn" class="vol-btn" aria-label="Mute/Volume" onclick="toggleMute()" type="button">
+          <span class="material-icons" id="volIcon">volume_up</span>
+          <span class="waves"></span>
+        </button>
+        <div class="vol-popover" id="volPopover">
+          <input id="volume" type="range" min="0" max="1" step="0.01" value="1" oninput="setVolume(this.value)" />
+          <div class="vol-value" id="volValue">100%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="uploadModal" class="modal-backdrop">
+    <div class="modal">
+      <h2>🎵 Upload Your Track</h2>
+      <div class="notice">💡 Free upload. No fees.</div>
+      <label for="trackTitle">Track title</label>
+      <input type="text" id="trackTitle" placeholder="Track Title" required/>
+      <label for="trackArtist">Artist</label>
+      <input type="text" id="trackArtist" placeholder="Artist Name" required/>
+      <label for="trackGenre">Genre (optional)</label>
+      <input type="text" id="trackGenre" placeholder="Genre (optional)"/>
+      <label for="twitterHandle">Artist Twitter (optional)</label>
+      <input type="text" id="twitterHandle" placeholder="@your_twitter (optional)"/>
+      <label for="tipWallet">Tip wallet (ETH, optional)</label>
+      <input type="text" id="tipWallet" placeholder="Tip wallet (ETH, optional)"/>
+      <label for="trackFile">Audio file — <b>track</b> slot <span class="small">(MP3 up to 15 MB)</span></label>
+      <input type="file" id="trackFile" accept="audio/mpeg,.mp3" required onchange="previewTrack()"/>
+      <label for="coverFile">Image — <b>cover</b> slot <span class="small">(JPG/PNG/WebP up to 3 MB)</span></label>
+      <input type="file" id="coverFile" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" onchange="previewCover()"/>
+      <div id="uploadPreview"></div>
+      <button id="uploadBtn" class="confirm" onclick="processUpload()">⬆️ Upload</button>
+      <button class="cancel" onclick="toggleModal('uploadModal', false)">Cancel</button>
+    </div>
+  </div>
+  <div id="supportModal" class="modal-backdrop">
+    <div class="modal">
+      <h2>🤝 Support the Artist</h2>
+      <div id="supportInfo" class="small"></div>
+      <input type="number" id="supportAmountUsd" placeholder="Amount in USD (optional)"/>
+      <input type="number" id="supportAmountSats" placeholder="Amount in ETH (optional)"/>
+      <div class="small">Fill USD <b>or</b> ETH. Conversion shows automatically.</div>
+      <div class="qr-box"><canvas id="supportQR" width="200" height="200"></canvas></div>
+      <div class="small" id="supportUriBox" style="word-break:break-all;"></div>
+      <div style="display:flex; gap:10px; margin-top:6px;">
+        <button class="confirm" onclick="confirmSupportPayment()">✅ I’ve paid</button>
+        <button class="cancel" onclick="toggleModal('supportModal', false)">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <audio id="audio" playsinline preload="auto"></audio>
+  <script>
+    const API_BASE = "https://bongo-api.bongoapi.workers.dev";
+    const DEFAULT_TIP = "0x54d544138b9D7Bc747651dd83A6dC34b49D7ecEE";
+    const AppState = {
+      provider: null,
+      userAccount: null,
+      currentTrack: null,
+      currentTrackIndex: 0,
+      tracks: [],
+      filteredTracks: [],
+      favorites: JSON.parse(localStorage.getItem('bongoCatFavorites') || '[]'),
+      isPlaying: false,
+      currentSection: 'home',
+      uploadPreview: { audio: null, cover: null },
+      btcUsd: null,
+      pendingSupport: null,
+      isUploading: false,
+      _playPingSent: false,
+      _playProgressListener: null
+    };
+    function getBaseUrl() {
+      return location.origin + location.pathname;
+    }
+    function getTrackShareUrl(track) {
+      const id = track?.id ?? '';
+      const url = new URL(getBaseUrl());
+      url.searchParams.set('track', String(id));
+      return url.toString();
+    }
+    async function shareTrack(trackId) {
+      const t = AppState.tracks.find(x => String(x.id) === String(trackId));
+      if (!t) return;
+      const url = getTrackShareUrl(t);
+      const title = t.title || 'Track';
+      const text = `Listen to "${title}" on Pengu Beats`;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: `Pengu Beats – ${title}`, text, url });
+          return;
+        } catch (_) { /* cancelled or failed; fallback */ }
+      }
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied: ' + url);
+      } catch {
+        prompt('Copy the track link:', url);
+      }
+    }
+    const LIMITS = {
+      audioMaxBytes: 15 * 1024 * 1024,
+      imageMaxBytes: 3 * 1024 * 1024,
+      audioTypes: new Set(['audio/mpeg']),
+      imageTypes: new Set(['image/jpeg','image/png','image/webp']),
+    };
+    function fail(msg) {
+      alert(msg);
+      return false;
+    }
+    function validateFile(file, kind) {
+      if (!(file instanceof File)) return { ok:false, reason:'Missing file.' };
+      if (kind === 'audio') {
+        if (!LIMITS.audioTypes.has(file.type)) {
+          return { ok:false, reason:'Only MP3 is accepted.' };
+        }
+        if (file.size > LIMITS.audioMaxBytes) {
+          return { ok:false, reason:'MP3 exceeds 15 MB.' };
+        }
+        if (!/\.(mp3)$/i.test(file.name || '')) {
+          return { ok:false, reason:'Invalid extension: use .mp3' };
+        }
+        return { ok:true };
+      }
+      if (kind === 'image') {
+        if (!LIMITS.imageTypes.has(file.type)) {
+          return { ok:false, reason:'Image must be JPG, PNG or WebP.' };
+        }
+        if (file.size > LIMITS.imageMaxBytes) {
+          return { ok:false, reason:'Image exceeds 3 MB.' };
+        }
+        return { ok:true };
+      }
+      return { ok:false, reason:'Unknown file type.' };
+    }
+    const DEVICE_ID = (() => {
+      const k = 'bongoDeviceId';
+      let v = localStorage.getItem(k);
+      if (!v) { v = (crypto.randomUUID && crypto.randomUUID()) || String(Date.now()); localStorage.setItem(k, v); }
+      return v;
+    })();
+    const initialTracks = [
+      { id: 1, title: "2010s roadtrip", artist: "Pengu Beats", genre: "Synthwave", cover: "./covers/2010s roadtrip.jpg", audio: "./tracks/2010s roadtrip.mp3" },
+      { id: 2, title: "blockchain", artist: "Pengu Beats", genre: "Electronic", cover: "./covers/blockchain.jpg", audio: "./tracks/blockchain.mp3" },
+      { id: 3, title: "dust e echoes", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/dust e echoes.jpg", audio: "./tracks/dust e echoes.mp3" },
+      { id: 4, title: "edm", artist: "Pengu Beats", genre: "EDM", cover: "./covers/edm.jpg", audio: "./tracks/edm.mp3" },
+      { id: 5, title: "Eletronic", artist: "Pengu Beats", genre: "Electronic", cover: "./covers/eletronic.jpg", audio: "./tracks/Eletronic.mp3" },
+      { id: 6, title: "mountain", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/mountain.jpg", audio: "./tracks/mountain.mp3" },
+      { id: 7, title: "progressive", artist: "Pengu Beats", genre: "Progressive", cover: "./covers/progressive.jpg", audio: "./tracks/progressive.mp3" },
+      { id: 8, title: "Smoke and Chill", artist: "Pengu Beats", genre: "Chill", cover: "./covers/smoke and chill.jpg", audio: "./tracks/Smoke and Chill.mp3" },
+      { id: 9, title: "sunset", artist: "Pengu Beats", genre: "Ambient", cover: "./covers/sunset.jpg", audio: "./tracks/sunset.mp3" },
+      { id: 10, title: "tiktok funk", artist: "Pengu Beats", genre: "Funk", cover: "./covers/tiktok funk.jpg", audio: "./tracks/tiktok funk.mp3" },
+      { id: 11, title: "trance", artist: "Pengu Beats", genre: "Trance", cover: "./covers/trance.jpg", audio: "./tracks/trance.mp3" },
+      { id: 12, title: "vintage rock", artist: "Pengu Beats", genre: "Rock", cover: "./covers/vintage rock.jpg", audio: "./tracks/vintage rock.mp3" }
+    ];
+    async function fetchBTCUSD() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd', { cache: 'no-store' });
+        const data = await res.json();
+        AppState.btcUsd = data.bitcoin.usd;
+      } catch (_) {
+        AppState.btcUsd = AppState.btcUsd || 60000;
+      }
+    }
+    function usdToSats(usd) { if (!AppState.btcUsd) return null; const btc = usd / AppState.btcUsd; return Math.round(btc * 1e8); }
+    function satsToUsd(sats) { if (!AppState.btcUsd) return null; return ((sats/1e8) * AppState.btcUsd).toFixed(2); }
+    function formatSats(sats) { return `${sats.toLocaleString()} ETH`; }
+    function makeBitcoinURI(address, sats, label='Pengu Beats') {
+      const amountBtc = (sats/1e8).toFixed(8);
+      const q = new URLSearchParams({ amount: amountBtc, label });
+      return `bitcoin:${address}?${q.toString()}`;
+    }
+    function drawQR(canvasId, text) {
+      try {
+        const c = document.getElementById(canvasId);
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = "#fff"; ctx.fillRect(0,0,c.width,c.height);
+        ctx.fillStyle = "#000"; ctx.font = "12px monospace"; ctx.textAlign = "center";
+        ctx.fillText("Scan not available", c.width/2, c.height/2 - 8);
+        ctx.fillText("Click the link below", c.width/2, c.height/2 + 12);
+      } catch(e) {}
+    }
+    const idEq = (a, b) => String(a) === String(b);
+    function previewTrack() {
+      const el = document.getElementById('trackFile');
+      const f = el.files[0];
+      if (f) {
+        const v = validateFile(f, 'audio');
+        if (!v.ok) {
+          fail(v.reason);
+          el.value = '';
+          AppState.uploadPreview.audio = null;
+          updateUploadPreview();
+          return;
+        }
+        AppState.uploadPreview.audio = f;
+        updateUploadPreview();
+      }
+    }
+    function previewCover() {
+      const el = document.getElementById('coverFile');
+      const f = el.files[0];
+      if (f) {
+        const v = validateFile(f, 'image');
+        if (!v.ok) {
+          fail(v.reason);
+          el.value = '';
+          AppState.uploadPreview.cover = null;
+          updateUploadPreview();
+          return;
+        }
+        AppState.uploadPreview.cover = f;
+        updateUploadPreview();
+      }
+    }
+    function updateUploadPreview() {
+      const container = document.getElementById('uploadPreview');
+      if (AppState.uploadPreview.audio || AppState.uploadPreview.cover) {
+        const title = document.getElementById('trackTitle').value || 'Untitled Track';
+        const artist = document.getElementById('trackArtist').value || 'Unknown Artist';
+        const genre = document.getElementById('trackGenre').value || 'Unknown';
+        const coverSrc = AppState.uploadPreview.cover
+          ? URL.createObjectURL(AppState.uploadPreview.cover)
+          : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="%2300cc99"><rect width="80" height="80" fill="%23333"/><text x="40" y="45" text-anchor="middle" fill="%2300cc99" font-size="24">🎵</text></svg>';
+        container.innerHTML = `
+          <div class="upload-preview">
+            <img src="${coverSrc}" alt="Preview">
+            <div class="upload-info">
+              <h4>${title}</h4>
+              <p>by ${artist}</p>
+              <p>Genre: ${genre}</p>
+              <p>Audio: ${AppState.uploadPreview.audio ? '✅ Ready' : '❌ Missing'}</p>
+            </div>
+          </div>`;
+      } else { container.innerHTML = ''; }
+    }
+    function setUploading(isOn) {
+      AppState.isUploading = isOn;
+      const btn = document.getElementById('uploadBtn');
+      if (!btn) return;
+      btn.disabled = isOn;
+      btn.style.opacity = isOn ? '0.6' : '1';
+      btn.style.pointerEvents = isOn ? 'none' : 'auto';
+      btn.innerHTML = isOn ? '<span class="loading-spinner"></span> Uploading...' : '⬆️ Upload';
+    }
+    async function sha256(blob) {
+      const buf = await blob.arrayBuffer();
+      const hash = await crypto.subtle.digest('SHA-256', buf);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+    async function getIdempotencyKey(audioFile, title, artist) {
+      try {
+        const h = await sha256(audioFile);
+        return `bongo:${h}:${(artist||'').trim().toLowerCase()}:${(title||'').trim().toLowerCase()}`;
+      } catch {
+        return (crypto.randomUUID && crypto.randomUUID()) || String(Date.now());
+      }
+    }
+    async function processUpload() {
+      if (AppState.isUploading) return;
+      setUploading(true);
+      const title = document.getElementById('trackTitle').value.trim();
+      const artist = document.getElementById('trackArtist').value.trim();
+      const audioFileEl = document.getElementById('trackFile');
+      const audioFile = audioFileEl.files[0];
+      const coverFileEl = document.getElementById('coverFile');
+      const coverFile = coverFileEl.files[0] || null;
+      if (!title || !artist) {
+        setUploading(false);
+        return fail('Please fill in title and artist.');
+      }
+      if (!audioFile) {
+        setUploading(false);
+        return fail('Please select an MP3 file.');
+      }
+      const av = validateFile(audioFile, 'audio');
+      if (!av.ok) { setUploading(false); return fail(av.reason); }
+      if (coverFile) {
+        const cv = validateFile(coverFile, 'image');
+        if (!cv.ok) { setUploading(false); return fail(cv.reason); }
+      }
+      try {
+        const genre = document.getElementById('trackGenre').value || 'Unknown';
+        const tipAddress = (document.getElementById('tipWallet').value || '').trim();
+        const twitter = (document.getElementById('twitterHandle').value || '').trim();
+        const idemKey = await getIdempotencyKey(audioFile, title, artist);
+        const fd = new FormData();
+        fd.append('title', title);
+        fd.append('artist', artist);
+        fd.append('genre', genre);
+        fd.append('tipAddress', tipAddress);
+        fd.append('twitter', twitter);
+        fd.append('uploader', AppState.userAccount || '');
+        fd.append('audio', audioFile);
+        if (coverFile) fd.append('cover', coverFile);
+        fd.append('idempotencyKey', idemKey);
+        const res = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body: fd });
+        if (!res.ok) {
+          if (res.status === 413) throw new Error('File too large (limits: MP3 up to 15 MB; image up to 3 MB).');
+          if (res.status === 415) throw new Error('Unsupported file type.');
+          throw new Error('Upload API error');
+        }
+        const { track } = await res.json();
+        const normalized = { likesCount: 0, tipTotalSats: 0, playCount: 0, ...track };
+        const keyOf = t => (t.id ?? t.audio);
+        const idx = AppState.tracks.findIndex(t => keyOf(t) === keyOf(normalized));
+        if (idx === -1) AppState.tracks.unshift(normalized);
+        else AppState.tracks[idx] = { ...AppState.tracks[idx], ...normalized };
+        persistTracks();
+        renderTracks();
+        setTimeout(() => { toggleModal('uploadModal', false); clearUploadForm(); }, 300);
+      } catch (err) {
+        fail(err.message || 'Upload error');
+      } finally {
+        setUploading(false);
+      }
+    }
+    function generateDefaultCover(title) {
+      const raw = String(title || '').slice(0, 20);
+      const safeText = raw
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+        <rect width="200" height="200" fill="#333"/>
+        <text x="100" y="100" text-anchor="middle" fill="#00cc99" font-size="30">🎵</text>
+        <text x="100" y="130" text-anchor="middle" fill="#fff" font-size="12">${safeText}</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+    function clearUploadForm() {
+      ['trackTitle','trackArtist','trackGenre','tipWallet','twitterHandle','trackFile','coverFile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.type === 'file') el.value = null; else el.value = '';
+      });
+      AppState.uploadPreview = { audio: null, cover: null };
+      document.getElementById('uploadPreview').innerHTML = '';
+    }
+    function openSupportModal(trackId) {
+      const tId = String(trackId);
+      const track = AppState.tracks.find(t => String(t.id) === tId);
+      if (!track) return;
+      const addr = (track.tipAddress && track.tipAddress.trim()) ? track.tipAddress : DEFAULT_TIP;
+      AppState.pendingSupport = { trackId: tId, address: addr, sats: null };
+      document.getElementById('supportInfo').innerHTML =
+        `Send support to <b>${track.title}</b> – <span class="small">${addr}</span>`;
+      document.getElementById('supportAmountUsd').value = '';
+      document.getElementById('supportAmountSats').value = '';
+      document.getElementById('supportUriBox').innerHTML = '';
+      const ctx = document.getElementById('supportQR').getContext('2d');
+      ctx.clearRect(0,0,200,200);
+      toggleModal('supportModal', true);
+    }
+    function updateSupportConversion() {
+      const usdVal = parseFloat(document.getElementById('supportAmountUsd').value);
+      const satsVal = parseInt(document.getElementById('supportAmountSats').value, 10);
+      let sats = null;
+      if (!isNaN(usdVal)) {
+        if (!AppState.btcUsd) { fetchBTCUSD(); return; }
+        sats = usdToSats(usdVal);
+        document.getElementById('supportAmountSats').value = sats || '';
+      } else if (!isNaN(satsVal)) {
+        sats = satsVal;
+        const usd = satsToUsd(sats);
+        if (usd) document.getElementById('supportAmountUsd').value = usd;
+      }
+      if (sats && AppState.pendingSupport) {
+        AppState.pendingSupport.sats = sats;
+        const uri = makeBitcoinURI(AppState.pendingSupport.address, sats, 'Pengu Beats Tip');
+        document.getElementById('supportUriBox').innerHTML = `<a href="${uri}">${uri}</a>`;
+        drawQR('supportQR', uri);
+      }
+    }
+    document.getElementById('supportAmountUsd').addEventListener('input', updateSupportConversion);
+    document.getElementById('supportAmountSats').addEventListener('input', updateSupportConversion);
+    function confirmSupportPayment() {
+      const ctx = AppState.pendingSupport;
+      if (!ctx || !ctx.sats) { return; }
+      const track = AppState.tracks.find(t => String(t.id) === String(ctx.trackId));
+      if (!track) return;
+      track.tipTotalSats = (track.tipTotalSats || 0) + ctx.sats;
+      persistTracks();
+      renderTracks();
+      toggleModal('supportModal', false);
+      AppState.pendingSupport = null;
+    }
+    AppState.prevVolume = 1;
+    function applyVolIcon(v){
+      const icon = document.getElementById('volIcon');
+      if (!icon) return;
+      if (v <= 0.001) icon.textContent = 'volume_off';
+      else if (v < 0.5) icon.textContent = 'volume_down';
+      else icon.textContent = 'volume_up';
+    }
+    function setVolume(v){
+      const audio = document.getElementById('audio');
+      const vol = Math.max(0, Math.min(1, parseFloat(v || 0)));
+      audio.volume = vol;
+      const slider = document.getElementById('volume');
+      const val = document.getElementById('volValue');
+      if (slider) slider.value = vol;
+      if (val) val.textContent = `${Math.round(vol*100)}%`;
+      localStorage.setItem('bongoVol', String(vol));
+      applyVolIcon(vol);
+    }
+    function toggleMute(){
+      const audio = document.getElementById('audio');
+      if (audio.volume > 0){
+        AppState.prevVolume = audio.volume;
+        setVolume(0);
+      } else {
+        setVolume(AppState.prevVolume || 1);
+      }
+    }
+    function openVol(show){
+      const box = document.getElementById('volPopover');
+      if (!box) return;
+      if (matchMedia('(hover: hover)').matches){
+        box.classList.toggle('open', !!show);
+      }
+    }
+    document.addEventListener('click', (e)=>{
+      const pop = document.getElementById('volPopover');
+      const btn = document.getElementById('muteBtn');
+      if (!pop || !btn) return;
+      const isBtn = btn.contains(e.target);
+      const isPop = pop.contains(e.target);
+      if (isBtn && !matchMedia('(hover: hover)').matches){
+        pop.classList.toggle('open');
+      } else if (!isBtn && !isPop){
+        pop.classList.remove('open');
+      }
+    });
+    ['volPopover','muteBtn'].forEach(id=>{
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('wheel', (ev)=>{
+        ev.preventDefault();
+        const audio = document.getElementById('audio');
+        const delta = ev.deltaY > 0 ? -0.05 : 0.05;
+        setVolume((audio.volume || 0) + delta);
+      }, { passive:false });
+    });
+    async function fetchMetricsByIds(ids) {
+      if (!ids || !ids.length) return [];
+      const qs = new URLSearchParams({ ids: ids.map(String).join(',') });
+      const res = await fetch(`${API_BASE}/api/metrics?${qs.toString()}`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('metrics fetch failed');
+      return await res.json();
+    }
+    async function sendLike(trackId, like) {
+      const res = await fetch(`${API_BASE}/api/tracks/${trackId}/like`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ device: DEVICE_ID, like: !!like })
+      });
+      if (!res.ok) throw new Error('like API error');
+      return await res.json();
+    }
+    async function sendPlay(trackId) {
+      const res = await fetch(`${API_BASE}/api/tracks/${trackId}/play`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ device: DEVICE_ID })
+      });
+      try { return await res.json(); } catch { return null; }
+    }
+    function playTrack(trackId) {
+      const tId = String(trackId);
+      const track = AppState.tracks.find(t => String(t.id) === tId);
+      if (!track) return;
+      AppState.currentTrack = track;
+      AppState.currentTrackIndex = AppState.tracks.findIndex(t => String(t.id) === tId);
+      const audio = document.getElementById('audio');
+      audio.src = track.audio; audio.load();
+      const savedVol2 = parseFloat(localStorage.getItem('bongoVol'));
+      audio.volume = Number.isFinite(savedVol2) ? savedVol2 : audio.volume;
+      applyVolIcon(audio.volume);
+      const volVal = document.getElementById('volValue');
+      const volSlider = document.getElementById('volume');
+      if (volVal) volVal.textContent = `${Math.round(audio.volume*100)}%`;
+      if (volSlider) volSlider.value = audio.volume;
+      document.getElementById('currentCover').src = track.cover || '';
+      document.getElementById('currentCover').style.visibility = track.cover ? 'visible' : 'hidden';
+      document.getElementById('currentTitle').textContent = track.title;
+      document.getElementById('currentArtist').textContent = track.artist;
+      renderTracks();
+      document.querySelectorAll('.track').forEach(el => el.classList.remove('playing'));
+      document.querySelector(`[data-track-id="${tId}"]`)?.classList.add('playing');
+      if (window.innerWidth <= 980) closeSidebar();
+      audio.oncanplaythrough = () => {
+        audio.play().then(() => {
+          AppState.isPlaying = true;
+          document.getElementById('playPause').innerHTML = '<span class="material-icons">pause</span>';
+        }).catch(() => {
+          AppState.isPlaying = false;
+          document.getElementById('playPause').innerHTML = '<span class="material-icons">play_arrow</span>';
+        });
+        audio.oncanplaythrough = null;
+      };
+      AppState._playPingSent = false;
+      if (AppState._playProgressListener) {
+        audio.removeEventListener('timeupdate', AppState._playProgressListener);
+        AppState._playProgressListener = null;
+      }
+      const onPlayProgressOnce = async () => {
+        if (AppState._playPingSent || !audio.duration) return;
+        const seconds = audio.currentTime;
+        const pct = audio.currentTime / audio.duration;
+        if (seconds >= 10 || pct >= 0.25) {
+          AppState._playPingSent = true;
+          try {
+            const data = await sendPlay(tId);
+            if (data && typeof data.playCount === 'number') {
+              const tr = AppState.tracks.find(t => idEq(t.id, tId));
+              if (tr) tr.playCount = data.playCount;
+              sortTracksForRanking();
+              renderTracks();
+            }
+          } catch (e) {
+            console.warn('play sync failed', e);
+          } finally {
+            audio.removeEventListener('timeupdate', onPlayProgressOnce);
+            AppState._playProgressListener = null;
+          }
+        }
+      };
+      AppState._playProgressListener = onPlayProgressOnce;
+      audio.addEventListener('timeupdate', onPlayProgressOnce);
+    }
+    function togglePlay() {
+      const audio = document.getElementById('audio');
+      if (!AppState.currentTrack) { if (AppState.tracks.length > 0) playTrack(AppState.tracks[0].id); return; }
+      if (AppState.isPlaying) {
+        audio.pause();
+        document.getElementById('playPause').innerHTML = '<span class="material-icons">play_arrow</span>';
+      } else {
+        audio.play().then(()=>{
+          document.getElementById('playPause').innerHTML = '<span class="material-icons">pause</span>';
+        }).catch(()=>{ /* ignore */ });
+      }
+      AppState.isPlaying = !AppState.isPlaying;
+    }
+    function prevTrack() { if (AppState.currentTrackIndex > 0) playTrack(AppState.tracks[AppState.currentTrackIndex - 1].id); }
+    function nextTrack() { if (AppState.currentTrackIndex < AppState.tracks.length - 1) playTrack(AppState.tracks[AppState.currentTrackIndex + 1].id); }
+    function seekTrack(value) {
+      const audio = document.getElementById('audio');
+      if (audio.duration) audio.currentTime = audio.duration * (value / 100);
+    }
+    function updateProgress() {
+      const audio = document.getElementById('audio');
+      if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progress').value = pct;
+        document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+        document.getElementById('totalTime').textContent = formatTime(audio.duration);
+      }
+    }
+    function formatTime(seconds) { const mins = Math.floor(seconds / 60); const secs = Math.floor(seconds % 60); return `${mins}:${secs.toString().padStart(2, '0')}`; }
+    async function toggleFavorite(trackId) {
+      const tId = String(trackId);
+      const i = AppState.favorites.findIndex(id => idEq(id, tId));
+      const wasFav = i > -1;
+      if (wasFav) AppState.favorites.splice(i, 1);
+      else AppState.favorites.push(tId);
+      localStorage.setItem('bongoCatFavorites', JSON.stringify(AppState.favorites));
+      try {
+        const data = await sendLike(tId, !wasFav);
+        const track = AppState.tracks.find(t => idEq(t.id, tId));
+        if (track && typeof data.likesCount === 'number') track.likesCount = data.likesCount;
+      } catch (e) {
+        console.warn('like sync failed', e);
+      }
+      persistTracks(); renderTracks(); renderFavorites();
+    }
+    function sortTracksForRanking() {
+      AppState.tracks.sort((a, b) => {
+        const pa = a.playCount || 0, pb = b.playCount || 0;
+        if (pb !== pa) return pb - pa;
+        const la = a.likesCount || 0, lb = b.likesCount || 0;
+        if (lb !== la) return lb - la;
+        return (a.id || 0) - (b.id || 0);
+      });
+    }
+    const keyOf = (t) => (t?.id ?? t?.audio);
+    function mergeTrackLists(backendList, localList) {
+      const map = new Map();
+      for (const t of (localList || [])) {
+        if (!t) continue;
+        const k = keyOf(t);
+        if (k != null) map.set(k, { ...t });
+      }
+      for (const t of (backendList || [])) {
+        if (!t) continue;
+        const k = keyOf(t);
+        if (k == null) continue;
+        map.set(k, { ...(map.get(k) || {}), ...t });
+      }
+      return Array.from(map.values());
+    }
+    function dedupeByKey(arr) {
+      const seen = new Set();
+      const out = [];
+      for (const t of arr) {
+        const k = keyOf(t);
+        if (k == null) { out.push(t); continue; }
+        if (seen.has(k)) continue;
+        seen.add(k);
+        out.push(t);
+      }
+      return out;
+    }
+    function createTrackHTML(track, rank) {
+      const isFavorite = AppState.favorites.some(id => idEq(id, track.id));
+      const likes = track.likesCount || 0;
+      const plays = track.playCount || 0;
+      const idStr = String(track.id).replace(/'/g, "\\'");
+      const titleForJs = String(track.title || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      const titleForAlt = String(track.title || '').replace(/"/g, '&quot;');
+      const srcUrl = track.cover || generateDefaultCover(track.title || '');
+      return `
+        <div class="track" data-track-id="${track.id}" onclick="playTrack('${idStr}')">
+          <div class="rank">${rank}</div>
+          <img src="${srcUrl}" alt="${titleForAlt}" onerror="this.src = generateDefaultCover('${titleForJs}')">
+          <div class="track-info">
+            <div class="title">${track.title}</div>
+            <div class="artist">${track.artist}</div>
+            <div class="genre">${track.genre}</div>
+            ${track.twitter ? `<div class="tw">🐦 ${track.twitter}</div>` : ''}
+          </div>
+          <div class="meta-line" onclick="event.stopPropagation();">
+            <span class="meta-pill">▶️ <span id="plays-${track.id}">${plays}</span></span>
+            <span class="meta-pill">❤️ <span id="likes-${track.id}">${likes}</span></span>
+            <button class="support-btn" onclick="shareTrack('${idStr}')">Share</button>
+            ${(track.tipAddress || DEFAULT_TIP) ? `<button class="support-btn" onclick="openSupportModal('${idStr}')">Support</button>` : ''}
+            <span class="favorite-icon ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${idStr}')">
+              ${isFavorite ? '❤️' : '🤍'}
+            </span>
+          </div>
+        </div>`;
+    }
+    function renderTracks() {
+      const container = document.getElementById('tracksList');
+      const source = AppState.filteredTracks.length > 0 ? AppState.filteredTracks.slice() : AppState.tracks.slice();
+      source.sort((a, b) => {
+        const pa = a.playCount || 0, pb = b.playCount || 0;
+        if (pb !== pa) return pb - pa;
+        const la = a.likesCount || 0, lb = b.likesCount || 0;
+        if (lb !== la) return lb - la;
+        return (a.id || 0) - (b.id || 0);
+      });
+      if (source.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="cat-emoji">🎹</span>
+            <h3>No tracks found</h3>
+            <p>Upload some music to get started!</p>
+          </div>`;
+        return;
+      }
+      container.innerHTML = source.map((track, index) => createTrackHTML(track, index + 1)).join('');
+    }
+    function renderFavorites() {
+      const container = document.getElementById('favoritesList');
+      const favIds = new Set((AppState.favorites || []).map(String));
+      const favTracks = AppState.tracks.filter(t => favIds.has(String(t.id)));
+      if (favTracks.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <span class="cat-emoji">😺</span>
+            <h3>No favorites yet!</h3>
+            <p>Start hearting some tracks to see them here</p>
+          </div>`;
+        return;
+      }
+      container.innerHTML = favTracks.map((track, index) => createTrackHTML(track, index + 1)).join('');
+    }
+    function filterTracks() {
+      const query = document.getElementById('searchBar').value.toLowerCase().trim();
+      if (!query) AppState.filteredTracks = [];
+      else {
+        AppState.filteredTracks = AppState.tracks.filter(track =>
+          (track.title || '').toLowerCase().includes(query) ||
+          (track.artist || '').toLowerCase().includes(query) ||
+          (track.genre || '').toLowerCase().includes(query) ||
+          (track.twitter || '').toLowerCase().includes(query)
+        );
+      }
+      renderTracks();
+    }
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('#sidebar nav a').forEach(el => el.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+      document.getElementById(`nav-${sectionId === 'home' ? 'home' : 'fav'}`).classList.add('active');
+      AppState.currentSection = sectionId;
+      if (sectionId === 'favorites') renderFavorites();
+      if (window.innerWidth <= 980) closeSidebar();
+    }
+    function toggleModal(id, show) { document.getElementById(id).classList.toggle('active', show); }
+    function toggleUpload() { toggleModal('uploadModal', true); fetchBTCUSD(); }
+    function persistTracks() { localStorage.setItem('bongoCatTracks', JSON.stringify(AppState.tracks)); }
+    function openSidebar(){
+      const sb = document.getElementById('sidebar');
+      const ov = document.getElementById('sidebarOverlay');
+      sb.classList.add('open');
+      if (window.innerWidth <= 980) ov.classList.add('show');
+    }
+    function closeSidebar(){
+      const sb = document.getElementById('sidebar');
+      const ov = document.getElementById('sidebarOverlay');
+      sb.classList.remove('open');
+      ov.classList.remove('show');
+    }
+    function toggleSidebar(){
+      const sb = document.getElementById('sidebar');
+      if (sb.classList.contains('open')) closeSidebar(); else openSidebar();
+    }
+    function toggleHowItWorks() {
+      const box = document.getElementById('howItWorksBox');
+      box.classList.toggle('show');
+    }
+    async function loadPublicTracks() {
+      try {
+        const res = await fetch(`${API_BASE}/api/tracks`, { cache: 'no-store' });
+        const tracks = await res.json();
+        return tracks.map(t => ({
+          tipTotalSats: typeof t.tipTotalSats === 'number' ? t.tipTotalSats : 0,
+          twitter: typeof t.twitter === 'string' ? t.twitter : '',
+          ...t,
+          likesCount: typeof t.likesCount === 'number' ? t.likesCount : 0,
+          playCount: typeof t.playCount === 'number' ? t.playCount : 0
+        }));
+      } catch { return []; }
+    }
+    async function initializeApp() {
+      AppState.favorites = (AppState.favorites || []).map(String);
+      const publicTracks = await loadPublicTracks();
+      const savedTracks = localStorage.getItem('bongoCatTracks');
+      const local = savedTracks
+        ? JSON.parse(savedTracks)
+        : initialTracks.map(t => ({ ...t, likesCount: 0, tipTotalSats: 0, playCount: 0, tipAddress: null, twitter: '' }));
+      let merged = mergeTrackLists(publicTracks, local);
+      merged = merged.map(t => ({ likesCount: 0, tipTotalSats: 0, playCount: 0, twitter: '', ...t }));
+      AppState.tracks = dedupeByKey(merged);
+      const ids = AppState.tracks.map(t => t.id).filter(v => v != null);
+      if (ids.length) {
+        try {
+          const metrics = await fetchMetricsByIds(ids);
+          const map = new Map(metrics.map(m => [String(m.id), m]));
+          AppState.tracks = AppState.tracks.map(t => {
+            const m = map.get(String(t.id));
+            return m ? { ...t, likesCount: (typeof m.likesCount === 'number' ? m.likesCount : t.likesCount),
+                                playCount: (typeof m.playCount === 'number' ? m.playCount : t.playCount) } : t;
+          });
+        } catch (e) { console.warn('metrics sync failed', e); }
+      }
+      sortTracksForRanking();
+      const audio = document.getElementById('audio');
+      audio.addEventListener('timeupdate', updateProgress);
+      audio.addEventListener('ended', nextTrack);
+      audio.addEventListener('loadstart', () => {
+        document.getElementById('progress').value = 0;
+        document.getElementById('currentTime').textContent = '0:00';
+        document.getElementById('totalTime').textContent = '0:00';
+      });
+      const savedVol = parseFloat(localStorage.getItem('bongoVol'));
+      setVolume(Number.isFinite(savedVol) ? savedVol : 1);
+      renderTracks();
+      fetchBTCUSD();
+      try {
+        const params = new URLSearchParams(location.search);
+        const tId = params.get('track');
+        if (tId) {
+          const exists = AppState.tracks.some(t => String(t.id) === String(tId));
+          if (exists) {
+            playTrack(String(tId));
+            setTimeout(() => {
+              const selector = `[data-track-id="${tId.replace(/"/g,'\\"')}"]`;
+              document.querySelector(selector)?.scrollIntoView({ behavior:'smooth', block:'center' });
+            }, 100);
+          }
+        }
+      } catch {}
+      console.log('🐱 Pengu Beats initialized');
+    }
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+</body>
+</html>

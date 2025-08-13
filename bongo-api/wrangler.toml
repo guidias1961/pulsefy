@@ -1,0 +1,20 @@
+name = "bongo-api"
+main = "src/worker.js"
+compatibility_date = "2024-11-20"
+workers_dev = true
+
+
+[[r2_buckets]]
+binding = "PUBLIC_BUCKET"
+bucket_name = "bongo-public"
+
+[vars]
+PUBLIC_BASE_URL = "https://pub-b608625b146e48ed8f9a4ffe32f16af4.r2.dev"
+ALLOWED_ORIGIN = "https://pengubeats.site"
+MAX_AUDIO_BYTES = "26214400"
+MAX_COVER_BYTES = "3145728"
+
+
+[[kv_namespaces]]
+binding = "METRICS"
+id = "5f5b646830634dd5baee77f9957c81ff"

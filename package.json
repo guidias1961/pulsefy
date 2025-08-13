@@ -1,0 +1,13 @@
+{
+  "name": "bongo-cat-site",
+  "private": true,
+  "scripts": {
+    "start": "serve -s site -l ${PORT:-3000}"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
